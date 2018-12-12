@@ -5,31 +5,34 @@ import java.util.*;
 
 public class Kruskal {
 
-	static Aresta[] aresta = new Aresta[3];
+	static Aresta[] aresta = new Aresta[21];
 	static int vs,as;
 	static int[] ciclo= new int[22];	
 	public static void main(String[] args) 
 	{
-		for(int i = 0;i < 3; i++){
-			aresta[i] = new Aresta(teclado("Digite o valor do vertice v1"),
-					teclado("Digite o valor do vertice v2"),
-					teclado("Digite o valor do peso da aresta"));
-		}
+//		for(int i = 0;i < 21; i++){
+//			aresta[i] = new Aresta(teclado("Digite o valor do vertice v1"),
+//					teclado("Digite o valor do vertice v2"),
+//					teclado("Digite o valor do peso da aresta"));
+//		}
+		inicia();
+		
 		Arrays.sort(aresta);
 		
-		for(int i = 0;i < 3; i++){
+		for(int i = 0;i < 22; i++){
 			ciclo[i] = i;
 		}
 		for(Aresta a : aresta){ //percorrendo todas as arestas
 			//detectando se com esta aresta forma ciclo:
 			if ( pai(a.verA) != pai(a.verB) ){ 
-	 
+				
 				//imprimindo a aresta que está na arvore geradora minima em ordem crescente de vertices
 				if(a.verA < a.verB){
-					System.out.print(a.verA+" "+ a.verB);
+					System.out.print("["+a.verA+"] ["+ a.verB+"]");
 				}
 				else{
-					System.out.print(a.verB+" "+a.verA);
+					System.out.print("["+a.verB+"] ["+ a.verA+"]");
+					//System.out.print(a.verB+" "+a.verA);
 				}
 	 
 				unir(a.verA, a.verB);
@@ -57,6 +60,37 @@ public class Kruskal {
 		System.out.println(string);
 		return new Scanner(System.in).nextInt();
 	}
+	public static void inicia()
+	{		
+		int count = 0;
+		try 
+		{
+			FileReader arq = new FileReader("ArvoreMinima.txt");
+			BufferedReader lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			String[] v = linha.split(" ");
+			vs= Integer.parseInt(v[0]);
+			as = Integer.parseInt(v[1]);
+			while (linha != null) {
+				/*System.out.printf("%s\n", linha);
+*/
+				linha = lerArq.readLine(); // lê da segunda até a última linha
+				
+				if(linha == null)break;
+				
+				String[] arrOfStr = linha.split(" ");
+				aresta[count++]  = new Aresta(Integer.parseInt(arrOfStr[0]),Integer.parseInt(arrOfStr[1]),Integer.parseInt(arrOfStr[2])); 
+				
+		}
+
+			arq.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n",
+					e.getMessage());
+		}
+	}
 }
 
 
@@ -71,38 +105,7 @@ public class Kruskal {
 
 
 
-//	public static void inicia()
-//	{		
-//		int count = 0;
-//		try 
-//		{
-//			FileReader arq = new FileReader("ArvoreMinima.txt");
-//			BufferedReader lerArq = new BufferedReader(arq);
-//
-//			String linha = lerArq.readLine();
-//			
-//			String[] v = linha.split(" ");
-//			vs= Integer.parseInt(v[0]);
-//			as = Integer.parseInt(v[1]);
-//			
-//			while (linha != null) {
-//				/*System.out.printf("%s\n", linha);
-//*/
-//				linha = lerArq.readLine(); // lê da segunda até a última linha
-//				
-//				String[] arrOfStr = linha.split(" ", -2);
-//				
-//				a[count++]  = new Aresta(arrOfStr[0],arrOfStr[1],arrOfStr[2]); 
-//		}
-//
-//			arq.close();
-//		} catch (IOException e) {
-//			System.err.printf("Erro na abertura do arquivo: %s.\n",
-//					e.getMessage());
-//		}
-//		bubbleSort(a);
-//
-//	}
+
 //	public static void bubbleSort(Aresta[] a2) 
 //	    { 
 //	        int n = a2.length; 
